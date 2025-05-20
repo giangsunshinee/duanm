@@ -41,10 +41,10 @@
                                   <div class="form-group col-12">
                                       <label>Tên Sản Phẩm </label>
                                       <input type="text" class="form-control" name="ten_san_pham" placeholder="Nhập tên sản phẩm">
-                                      <?php if (isset($errors['ten_san_pham'])) { ?>
+                                      <?php if (isset($_SESSION['error']['ten_san_pham'])) { ?>
 
                                           <div class="text-danger">
-                                              <?= $errors['ten_san_pham'] ?>
+                                              <?= $_SESSION['error']['ten_san_pham'] ?>
                                           </div>
                                       <?php } ?>
                                   </div>
@@ -52,10 +52,10 @@
                                   <div class="form-group col-6">
                                       <label>Hình Ảnh </label>
                                       <input type="file" class="form-control" name="hinh_anh">
-                                      <?php if (isset($errors['hinh_anh'])) { ?>
+                                      <?php if (isset($_SESSION['error']['hinh_anh'])) { ?>
 
                                           <div class="text-danger">
-                                              <?= $errors['hinh_anh'] ?>
+                                              <?= $_SESSION['error']['hinh_anh'] ?>
                                           </div>
                                       <?php } ?>
                                   </div>
@@ -69,10 +69,10 @@
                                   <div class="form-group col-6">
                                       <label>Giá sản phẩm </label>
                                       <input type="number" class="form-control" name="gia_san_pham" placeholder="Nhập giá sản phẩm">
-                                      <?php if (isset($errors['gia_san_pham'])) { ?>
+                                      <?php if (isset($_SESSION['error']['gia_san_pham'])) { ?>
 
                                           <div class="text-danger">
-                                              <?= $errors['gia_san_pham'] ?>
+                                              <?= $_SESSION['error']['gia_san_pham'] ?>
                                           </div>
                                       <?php } ?>
                                   </div>
@@ -80,10 +80,10 @@
                                   <div class="form-group col-6">
                                       <label>Giá Khuyến Mãi </label>
                                       <input type="number" class="form-control" name="gia_khuyen_mai" placeholder="Nhập tên giá khuyến mãi">
-                                      <?php if (isset($errors['gia_khuyen_mai'])) { ?>
+                                      <?php if (isset($_SESSION['error']['gia_khuyen_mai'])) { ?>
 
                                           <div class="text-danger">
-                                              <?= $errors['gia_khuyen_mai'] ?>
+                                              <?= $_SESSION['error']['gia_khuyen_mai'] ?>
                                           </div>
                                       <?php } ?>
                                   </div>
@@ -91,10 +91,10 @@
                                   <div class="form-group col-6">
                                       <label>Số Lượng </label>
                                       <input type="number" class="form-control" name="so_luong" placeholder="Nhập số lượng">
-                                      <?php if (isset($errors['so_luong'])) { ?>
+                                      <?php if (isset($_SESSION['error']['so_luong'])) { ?>
 
                                           <div class="text-danger">
-                                              <?= $errors['so_luong'] ?>
+                                              <?= $_SESSION['error']['so_luong'] ?>
                                           </div>
                                       <?php } ?>
                                   </div>
@@ -102,10 +102,10 @@
                                   <div class="form-group col-6">
                                       <label>Ngày Nhập </label>
                                       <input type="date" class="form-control" name="ngay_nhap" placeholder="Nhập tên ngày nhập">
-                                      <?php if (isset($errors['ngay_nhap'])) { ?>
+                                      <?php if (isset($_SESSION['error']['ngay_nhap'])) { ?>
 
                                           <div class="text-danger">
-                                              <?= $errors['ngay_nhap'] ?>
+                                              <?= $_SESSION['error']['ngay_nhap'] ?>
                                           </div>
                                       <?php } ?>
                                   </div>
@@ -118,9 +118,9 @@
                                               <option value="<?= $danhMuc['id'] ?>"><?= $danhMuc['ten_danh_muc'] ?></option>
                                           <?php endforeach ?>
                                       </select>
-                                      <?php if (isset($errors['danh_muc_id'])) { ?>
+                                      <?php if (isset($_SESSION['error']['danh_muc_id'])) { ?>
                                           <div class="text-danger">
-                                              <?= $errors['danh_muc_id'] ?>
+                                              <?= $_SESSION['error']['danh_muc_id'] ?>
                                           </div>
                                       <?php } ?>
                                   </div>
@@ -132,9 +132,9 @@
                                           <option value="1">Còn hàng</option>
                                           <option value="2">Hết hàng</option>
                                       </select>
-                                      <?php if (isset($errors['trang_thai'])) { ?>
+                                      <?php if (isset($_SESSION['error']['trang_thai'])) { ?>
                                           <div class="text-danger">
-                                              <?= $errors['trang_thai'] ?>
+                                              <?= $_SESSION['error']['trang_thai'] ?>
                                           </div>
                                       <?php } ?>
                                   </div>

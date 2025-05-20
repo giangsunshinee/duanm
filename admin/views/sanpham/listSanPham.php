@@ -32,7 +32,7 @@
                       <div class="card">
                           <div class="card-header">
                               <a href="<?= BASE_URL_ADMIN . '?act=form-them-san-pham' ?>">
-                                  <button class="btn btn-success">Thêm Danh Mục Sản Phẩm</button>
+                                  <button class="btn btn-success">Thêm Sản Phẩm</button>
                               </a>
                           </div>
                           <div class="">

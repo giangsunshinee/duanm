@@ -26,22 +26,24 @@ class AdminSanPhamController
         $listDanhMuc = $this->modelDanhmuc->getAllDanhMuc();
 
         require_once '../admin/views/sanpham/addSanPham.php';
+
+        deleteSessionError();
     }
 
     public function postAddSanPham()
     {
         // var_dump($_POST);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $ten_san_pham = $_POST['ten_san_pham'];
-            $gia_san_pham = $_POST['gia_san_pham'];
-            $gia_khuyen_mai = $_POST['gia_khuyen_mai'];
-            $so_luong = $_POST['so_luong'];
-            $ngay_nhap = $_POST['ngay_nhap'];
-            $danh_muc_id = $_POST['danh_muc_id'];
-            $trang_thai = $_POST['trang_thai'];
-            $mo_ta = $_POST['mo_ta'];
+            $ten_san_pham = $_POST['ten_san_pham'] ?? '';
+            $gia_san_pham = $_POST['gia_san_pham'] ?? '';
+            $gia_khuyen_mai = $_POST['gia_khuyen_mai'] ?? '';
+            $so_luong = $_POST['so_luong'] ?? '';
+            $ngay_nhap = $_POST['ngay_nhap']    ?? '';
+            $danh_muc_id = $_POST['danh_muc_id'] ?? '';
+            $trang_thai = $_POST['trang_thai'] ?? '';
+            $mo_ta = $_POST['mo_ta']    ?? '';
 
-            $hinh_anh = $_FILES['hinh_anh'];
+            $hinh_anh = $_FILES['hinh_anh'] ?? null;
             //luu hinh anh
             $file_thumb = uploadFile($hinh_anh, './uploads/');
 
@@ -79,16 +81,38 @@ class AdminSanPhamController
                 $errors['trang_thai'] = 'Trạng thái phải chọn';
             }
 
+            if ($hinh_anh['error'] !== 0) {
+                $errors['hinh_anh'] = 'Phải chọn hình ảnh';
+            }
+
+            $_SESSION['error'] = $errors;
 
 
             if (empty($errors)) {
                 // Nếu không có lỗi thì thêm danh mục vào database
-                $this->modelSanpham->insertSanPham($ten_san_pham, $gia_san_pham, $gia_khuyen_mai, $so_luong, $ngay_nhap, $danh_muc_id, $trang_thai, $mo_ta, $file_thumb);
+                $san_pham_id = $this->modelSanpham->insertSanPham($ten_san_pham, $gia_san_pham, $gia_khuyen_mai, $so_luong, $ngay_nhap, $danh_muc_id, $trang_thai, $mo_ta, $file_thumb);
+                
+                if(!empty($img_array['name'])) {
+                    foreach ($img_array['name'] as $key => $value) {
+                        $file = [
+                            'name' => $img_array['name'][$key],
+                            'type' => $img_array['type'][$key],
+                            'tmp_name' => $img_array['tmp_name'][$key],
+                            'error' => $img_array['error'][$key],
+                            'size' => $img_array['size'][$key]
+                        ];
+
+                        $link_hinh_anh = uploadFile($file, './uploads/');
+                        $this->modelSanpham->insertAlbumAnhSanPham($san_pham_id, $link_hinh_anh);
+                    }
+                }
+
                 header('Location: ' . BASE_URL_ADMIN . '?act=san-pham');
-                exit();
             } else {
                 // Nếu có lỗi thì hiển thị lại form và thông báo lỗi
-                require_once '../admin/views/sanpham/addSanPham.php';
+                $_SESSION['flash'] = true;
+                header('Location: ' . BASE_URL_ADMIN . '?act=form-them-san-pham');
+                exit();
             }
         }
     }
@@ -98,13 +122,15 @@ class AdminSanPhamController
         // var_dump('formAddSanPham');
         // Lấy id danh mục từ url
         $id = $_GET['id_san_pham'];
-        $SanPham = $this->modelSanpham->getDetailSanPham($id);
+        $sanPham = $this->modelSanpham->getDetailSanPham($id);
+        $listSanpham = $this->modelSanpham->getListAnhSanPham($id);
+        $listDanhMuc = $this->modelDanhmuc->getAllDanhMuc();
         // var_dump($SanPham);
         // Nếu không tìm thấy danh mục thì quay về trang danh sách
-        if ($SanPham) {
+        if ($sanPham) {
             require_once '../admin/views/sanpham/editSanPham.php';
         } else {
-            header('Location: ' . BASE_URL_ADMIN . '?act=danh-muc');
+            header('Location: ' . BASE_URL_ADMIN . '?act=san-pham');
             exit();
         }
     }
