@@ -1,7 +1,8 @@
 <?php
 
 // Kết nối CSDL qua PDO
-function connectDB() {
+function connectDB()
+{
     // Kết nối CSDL
     $host = DB_HOST;
     $port = DB_PORT;
@@ -15,9 +16,31 @@ function connectDB() {
 
         // cài đặt chế độ trả dữ liệu
         $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    
+
         return $conn;
     } catch (PDOException $e) {
         echo ("Connection failed: " . $e->getMessage());
+    }
+}
+
+// them file
+function uploadFile($file, $folderUpload)
+{
+    $pathStoreage = $folderUpload . time() . $file['name'];
+
+    $from = $file['tmp_name'];
+    $to = PATH_ROOT . $pathStoreage;
+    if (move_uploaded_file($from, $to)) {
+        return $pathStoreage;
+    }
+    return null;
+}
+
+// xoa file
+function deleteFile($file)
+{
+    $pathDelete = PATH_ROOT . $file;
+    if (file_exists($pathDelete)) {
+        unlink($pathDelete);
     }
 }
