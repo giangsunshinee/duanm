@@ -98,9 +98,11 @@ class AdminSanPham
                 ':id' => $id
             ]);
 
-            return $stmt->fetch();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result ?: [];
         } catch (PDOException $e) {
             echo "Lỗi: " . $e->getMessage();
+            return [];
         }
     }
 
@@ -134,6 +136,64 @@ class AdminSanPham
                 ':mo_ta' => $mo_ta,
                 ':hinh_anh' => $hinh_anh,
                 ':id' => $san_pham_id
+            ]);
+
+            return true;
+        } catch (PDOException $e) {
+            echo "Lỗi: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getDetailAnhSanPham($id)
+    {
+
+        try {
+            $sql = "SELECT * FROM hinh_anh_san_phams WHERE id = :id";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->execute([
+                ':id' => $id
+            ]);
+
+            return $stmt->fetch();
+        } catch (PDOException $e) {
+            echo "Lỗi: " . $e->getMessage();
+        }
+    }
+
+    public function updateAnhSanPham($id, $new_file)
+    {
+        try {
+            $sql = "UPDATE hinh_anh_san_phams 
+            SET 
+                link_hinh_anh = :new_file 
+            WHERE id = :id";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->execute([
+                ':id' => $id,
+                ':new_file' => $new_file
+            ]);
+
+            return true;
+        } catch (PDOException $e) {
+            echo "Lỗi: " . $e->getMessage();
+        }
+    }
+
+    public function destroyAlbumAnhSanPham($id)
+    {
+
+        try {
+            $sql = "DELETE FROM hinh_anh_san_phams WHERE id = :id";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->execute([
+                ':id' => $id
             ]);
 
             return true;

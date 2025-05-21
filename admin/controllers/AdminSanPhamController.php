@@ -123,7 +123,10 @@ class AdminSanPhamController
         // Lấy id danh mục từ url
         $id = $_GET['id_san_pham'];
         $sanPham = $this->modelSanpham->getDetailSanPham($id);
-        $listSanpham = $this->modelSanpham->getListAnhSanPham($id);
+        $listAnhSanPham = $this->modelSanpham->getlistAnhSanPham($sanPham['id']);
+        if (!is_array($listAnhSanPham)) {
+            $listAnhSanPham = [];
+        }
         $listDanhMuc = $this->modelDanhmuc->getAllDanhMuc();
         // var_dump($SanPham);
         // Nếu không tìm thấy danh mục thì quay về trang danh sách
@@ -186,15 +189,16 @@ class AdminSanPhamController
                 $errors['trang_thai'] = 'Trạng thái phải chọn';
             }
 
-            if ($hinh_anh['error'] !== 0) {
-                $errors['hinh_anh'] = 'Phải chọn hình ảnh';
-            }
+            // if ($hinh_anh['error'] !== 0) {
+            //     $errors['hinh_anh'] = 'Phải chọn hình ảnh';
+            // }
 
             $_SESSION['error'] = $errors;
 
-            if (isset($hinh_anh) && $hinh_anh['error'] == UPLOAD_ERR_OK) {
+            if (isset($hinh_anh) && $hinh_anh['error'] === 0) {
+                // Có upload ảnh mới, xử lý upload
                 $new_file = uploadFile($hinh_anh, './uploads/');
-                if(!empty($new_file)) {
+                if (!empty($new_file)) {
                     // Xóa file cũ nếu có
                     if (!empty($old_file)) {
                         deleteFile($old_file);
@@ -202,7 +206,10 @@ class AdminSanPhamController
                 } else {
                     $new_file = $old_file; // Giữ nguyên file cũ nếu upload mới thất bại
                 }
+            } else {
+                $new_file = $old_file; // Không upload ảnh mới, giữ nguyên ảnh cũ
             }
+
             if (empty($errors)) {
                 // Nếu không có lỗi thì thêm danh mục vào database
                 $san_pham_id = $this->modelSanpham->updateSanPham($ten_san_pham, $gia_san_pham, $gia_khuyen_mai, $so_luong, $ngay_nhap, $danh_muc_id, $trang_thai, $mo_ta, $new_file, $san_pham_id);
@@ -215,6 +222,58 @@ class AdminSanPhamController
                 header('Location: ' . BASE_URL_ADMIN . '?act=form-sua-san-pham&id_san_pham=' . $san_pham_id);
                 exit();
             }
+        }
+    }
+
+    public function postEditAnhSanPham()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $san_pham_id = $_POST['san_pham_id'] ?? '';
+
+            $listAnhSanPhamCurrent = $this->modelSanpham->getlistAnhSanPham($san_pham_id);
+            if (!is_array($listAnhSanPhamCurrent)) {
+                $listAnhSanPhamCurrent = [];
+            }
+
+            $img_array = $_FILES['img_array'];
+            $img_delete = isset($_POST['img_delete']) ? explode(',', $_POST['img_delete']) : [];
+            $current_img_ids = $_POST['current_img_ids'] ?? [];
+
+            $upload_file = [];
+
+            foreach ($img_array['name'] as $key => $value) {
+                if ($img_array['error'][$key] == UPLOAD_ERR_OK) {
+                    $new_file = uploadFileAlbum($img_array, './uploads/', $key);
+                    if ($new_file) {
+                        $upload_file[] = [
+                            'id' => $current_img_ids[$key] ?? null,
+                            'file' => $new_file
+                        ];
+                    }
+                }
+            }
+
+            foreach ($upload_file as $file_info) {
+                if ($file_info['id']) {
+                    $old_file = $this->modelSanpham->getDetailAnhSanPham($file_info['id'])['link_hinh_anh'];
+                    $this->modelSanpham->updateAnhSanPham($file_info['id'], $file_info['file']);
+                    deleteFile($old_file);
+                } else {
+                    // Nếu không có id, thêm ảnh mới
+                    $this->modelSanpham->insertAlbumAnhSanPham($san_pham_id, $file_info['file']);
+                }
+            }
+
+            foreach ($listAnhSanPhamCurrent as $anhSP) {
+                $anh_id = $anhSP['id'];
+                if (in_array($anh_id, $img_delete)) {
+                    $this->modelSanpham->destroyAlbumAnhSanPham($anh_id);
+                    deleteFile($anhSP['link_hinh_anh']);
+                }
+            }
+
+            header('Location: ' . BASE_URL_ADMIN . '?act=form-sua-san-pham&id_san_pham=' . $san_pham_id);
+            exit();
         }
     }
 

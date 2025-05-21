@@ -36,6 +36,18 @@ function uploadFile($file, $folderUpload)
     return null;
 }
 
+function uploadFileAlbum($file, $folderUpload, $key)
+{
+    $pathStoreage = $folderUpload . time() . $file['name'][$key];
+
+    $from = $file['tmp_name'][$key];
+    $to = PATH_ROOT . $pathStoreage;
+    if (move_uploaded_file($from, $to)) {
+        return $pathStoreage;
+    }
+    return null;
+}
+
 // xoa file
 function deleteFile($file)
 {

@@ -100,7 +100,6 @@
                           <div class="card-footer text-center">
                               <button type="submit" class="btn btn-primary">Sửa thông tin</button>
                           </div>
-
                       </form>
                       <!-- /.card-body -->
                   </div>
@@ -110,8 +109,7 @@
                   <!-- /.card -->
                   <div class="card card-info">
                       <div class="card-header">
-                          <h3 class="card-title">ALbum sản phẩm</h3>
-
+                          <h3 class="card-title">Album sản phẩm</h3>
                           <div class="card-tools">
                               <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                   <i class="fas fa-minus"></i>
@@ -119,65 +117,47 @@
                           </div>
                       </div>
                       <div class="card-body p-0">
-                          <table class="table">
-                              <thead>
-                                  <tr>
-                                      <th>File Name</th>
-                                      <th>File Size</th>
-                                      <th></th>
-                                  </tr>
-                              </thead>
-                              <tbody>
+                          <form action="<?= BASE_URL_ADMIN . '?act=sua-album-anh-san-pham' ?>" method="POST" enctype="multipart/form-data">
+                              <div class="table-responsive">
+                                  <table id="faqs" class="table table-hover">
+                                      <thead>
+                                          <tr>
+                                              <th>Ảnh</th>
+                                              <th>File
+                                              <th>
+                                              <th>
+                                                  <div class="text-center"><button onclick="addfaqs()" type="button" class="badge badge-success"><i class="fa fa-plus"></i> ADD</button></div>
+                                              </th>
+                                          </tr>
+                                      </thead>
 
-                                  <tr>
-                                      <td>Functional-requirements.docx</td>
-                                      <td>49.8005 kb</td>
-                                      <td class="text-right py-0 align-middle">
-                                          <div class="btn-group btn-group-sm">
-                                              <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                              <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                          </div>
-                                      </td>
-                                  <tr>
-                                      <td>UAT.pdf</td>
-                                      <td>28.4883 kb</td>
-                                      <td class="text-right py-0 align-middle">
-                                          <div class="btn-group btn-group-sm">
-                                              <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                              <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                          </div>
-                                      </td>
-                                  <tr>
-                                      <td>Email-from-flatbal.mln</td>
-                                      <td>57.9003 kb</td>
-                                      <td class="text-right py-0 align-middle">
-                                          <div class="btn-group btn-group-sm">
-                                              <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                              <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                          </div>
-                                      </td>
-                                  <tr>
-                                      <td>Logo.png</td>
-                                      <td>50.5190 kb</td>
-                                      <td class="text-right py-0 align-middle">
-                                          <div class="btn-group btn-group-sm">
-                                              <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                              <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                          </div>
-                                      </td>
-                                  <tr>
-                                      <td>Contract-10_12_2014.docx</td>
-                                      <td>44.9715 kb</td>
-                                      <td class="text-right py-0 align-middle">
-                                          <div class="btn-group btn-group-sm">
-                                              <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                              <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                          </div>
-                                      </td>
+                                      <tbody>
+                                          <input type="hidden" name="san_pham_id" value="<?= $sanPham['id'] ?>">
+                                          <input type="hidden" id="img_delete" name="img_delete">
+                                          <?php if (!empty($listAnhSanPham) && is_array($listAnhSanPham)): ?>
+                                              <?php foreach ($listAnhSanPham as $key => $value): ?>
+                                                  <tr id="faqs-row<?= $key ?>">
+                                                      <input type="hidden" name="current_img_ids[]" value="<?= $value['id'] ?>">
+                                                      <td><img src="<?= BASE_URL . $value['link_hinh_anh'] ?>" style="width:50px; height:50px" alt=""></td>
+                                                      <td><input type="file" name="img_array[]" class="form-control"></td>
+                                                      <td class="mt-10">
+                                                          <button class="badge badge-danger" type="button" onclick="removeRow(<?= $key ?>,<?= $value['id'] ?>)">
+                                                              <i class="fa fa-trash"></i> Delete
+                                                          </button>
+                                                      </td>
+                                                  </tr>
+                                              <?php endforeach ?>
+                                          <?php endif; ?>
+                                      </tbody>
 
-                              </tbody>
-                          </table>
+                                  </table>
+                              </div>
+                              <div class="card-footer text-center">
+                                  <button type="submit" class="btn btn-primary">Sửa Album ảnh</button>
+                              </div>
+                          </form>
                       </div>
+
                       <!-- /.card-body -->
                   </div>
                   <!-- /.card -->
@@ -199,3 +179,35 @@
   </body>
 
   </html>
+
+  <script>
+      var faqs_row = <?= count($listAnhSanPham) ?>;
+
+      function addfaqs() {
+          console.log(123);
+
+          html = '<tr id="faqs-row' + faqs_row + '">';
+          html += '<td><img src=" https://th.bing.com/th/id/OIP._afEK8OunDcdCncW9JxE_gAAAA?rs=1&pid=ImgDetMain " style=" width:50px ; height:50px " alt=""></td>';
+          html += '<td><input type="file" name="img_array[]" placeholder="Product name" class="form-control"></td>';
+          html += '<td class="mt-10"><button class="badge badge-danger" onclick="removeRow('+ faqs_row + ', null);"><i class="fa fa-trash"></i> Delete</button></td>';
+
+          html += '</tr>';
+
+          $('#faqs tbody').append(html);
+
+          faqs_row++;
+
+      }
+
+      function removeRow(rowId, imgId) {
+          // Xóa dòng trong bảng
+          $('#faqs-row' + rowId).remove();
+
+          // Lưu id ảnh vào input hidden để xóa trong database
+          if (imgId !== null) {
+              var imgDeleteInput = document.getElementById('img_delete');
+              var currentImgIds = imgDeleteInput.value ? imgDeleteInput + ',' + imgId : imgId;
+              imgDeleteInput.value = currentImgIds;
+          }
+      }
+  </script>
