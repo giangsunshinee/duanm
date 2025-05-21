@@ -279,16 +279,38 @@ class AdminSanPhamController
 
     public function deleteSanPham()
     {
-        // Lấy id danh mục từ url
         $id = $_GET['id_san_pham'];
-        // Kiểm tra xem danh mục có tồn tại không
         $SanPham = $this->modelSanpham->getDetailSanPham($id);
-        // Nếu không tìm thấy danh mục thì quay về trang danh sách
+
         if ($SanPham) {
-            // Xóa danh mục
+            // Lấy danh sách ảnh album
+            $listAnhSanPham = $this->modelSanpham->getlistAnhSanPham($id);
+            $listAnhSanPham = is_array($listAnhSanPham) ? $listAnhSanPham : [];
+
+            // Xóa từng ảnh album (file + DB)
+            foreach ($listAnhSanPham as $anhSP) {
+                deleteFile($anhSP['link_hinh_anh']);
+                $this->modelSanpham->destroyAlbumAnhSanPham($anhSP['id']);
+            }
+
+            // Xóa sản phẩm
             $this->modelSanpham->destroySanPham($id);
         }
+
         header('Location: ' . BASE_URL_ADMIN . '?act=san-pham');
         exit();
+    }
+
+    public function detailSanPham()
+    {
+        $id = $_GET['id_san_pham'];
+        $sanPham = $this->modelSanpham->getDetailSanPham($id);
+        $listAnhSanPham = $this->modelSanpham->getlistAnhSanPham($id);
+        if ($sanPham) {
+            require_once '../admin/views/sanpham/detailSanPham.php';
+        } else {
+            header('Location: ' . BASE_URL_ADMIN . '?act=san-pham');
+            exit();
+        }
     }
 }

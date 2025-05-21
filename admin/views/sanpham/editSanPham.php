@@ -21,6 +21,12 @@
                       <h1>Sửa Sản Phẩm : <?= $sanPham['ten_san_pham'] ?></h1>
                   </div>
               </div>
+              <div class="row">
+                  <div class="col-12">
+                      <a href="<?= BASE_URL_ADMIN . '?act=san-pham' ?>" class="btn btn-secondary">Back to List</a>
+                      <!-- <input type="submit" value="Save Changes" class="btn btn-success float-right"> -->
+                  </div>
+              </div>
           </div><!-- /.container-fluid -->
       </section>
 
@@ -163,12 +169,7 @@
                   <!-- /.card -->
               </div>
           </div>
-          <div class="row">
-              <div class="col-12">
-                  <a href="#" class="btn btn-secondary">Cancel</a>
-                  <input type="submit" value="Save Changes" class="btn btn-success float-right">
-              </div>
-          </div>
+
       </section>
       <!-- /.content -->
   </div>
@@ -189,7 +190,7 @@
           html = '<tr id="faqs-row' + faqs_row + '">';
           html += '<td><img src=" https://th.bing.com/th/id/OIP._afEK8OunDcdCncW9JxE_gAAAA?rs=1&pid=ImgDetMain " style=" width:50px ; height:50px " alt=""></td>';
           html += '<td><input type="file" name="img_array[]" placeholder="Product name" class="form-control"></td>';
-          html += '<td class="mt-10"><button class="badge badge-danger" onclick="removeRow('+ faqs_row + ', null);"><i class="fa fa-trash"></i> Delete</button></td>';
+          html += '<td class="mt-10"><button class="badge badge-danger" onclick="removeRow(' + faqs_row + ', null);"><i class="fa fa-trash"></i> Delete</button></td>';
 
           html += '</tr>';
 
