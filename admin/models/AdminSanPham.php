@@ -86,7 +86,7 @@ class AdminSanPham
         }
     }
 
-        public function getListAnhSanPham($id)
+    public function getListAnhSanPham($id)
     {
 
         try {
@@ -104,18 +104,36 @@ class AdminSanPham
         }
     }
 
-    public function updateSanPham($id, $ten_san_pham, $mo_ta)
+    public function updateSanPham($ten_san_pham, $gia_san_pham, $gia_khuyen_mai, $so_luong, $ngay_nhap, $danh_muc_id, $trang_thai, $mo_ta, $hinh_anh, $san_pham_id)
     {
 
         try {
-            $sql = "UPDATE san_phams SET ten_san_pham = :ten_san_pham, mo_ta = :mo_ta WHERE id = :id";
+            $sql = "UPDATE san_phams 
+            SET 
+                ten_san_pham = :ten_san_pham, 
+                gia_san_pham = :gia_san_pham, 
+                gia_khuyen_mai = :gia_khuyen_mai, 
+                so_luong = :so_luong, 
+                ngay_nhap = :ngay_nhap, 
+                danh_muc_id = :danh_muc_id, 
+                trang_thai = :trang_thai, 
+                mo_ta = :mo_ta, 
+                hinh_anh = :hinh_anh 
+            WHERE id = :id";
 
             $stmt = $this->conn->prepare($sql);
 
             $stmt->execute([
-                ':id' => $id,
                 ':ten_san_pham' => $ten_san_pham,
-                ':mo_ta' => $mo_ta
+                ':gia_san_pham' => $gia_san_pham,
+                ':gia_khuyen_mai' => $gia_khuyen_mai,
+                ':so_luong' => $so_luong,
+                ':ngay_nhap' => $ngay_nhap,
+                ':danh_muc_id' => $danh_muc_id,
+                ':trang_thai' => $trang_thai,
+                ':mo_ta' => $mo_ta,
+                ':hinh_anh' => $hinh_anh,
+                ':id' => $san_pham_id
             ]);
 
             return true;

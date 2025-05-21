@@ -18,7 +18,7 @@
           <div class="container-fluid">
               <div class="row mb-2">
                   <div class="col-sm-6">
-                      <h1>Sửa Sản Phẩm </h1>
+                      <h1>Sửa Sản Phẩm : <?= $sanPham['ten_san_pham'] ?></h1>
                   </div>
               </div>
           </div><!-- /.container-fluid -->
@@ -30,7 +30,7 @@
               <div class="col-md-6">
                   <div class="card card-primary">
                       <div class="card-header">
-                          <h3 class="card-title">General</h3>
+                          <h3 class="card-title">Thông tin sản phẩm</h3>
 
                           <div class="card-tools">
                               <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -38,68 +38,79 @@
                               </button>
                           </div>
                       </div>
-                      <div class="card-body">
-                          <div class="form-group">
-                              <label for="inputName">Project Name</label>
-                              <input type="text" id="inputName" class="form-control" value="AdminLTE">
+                      <form action="<?= BASE_URL_ADMIN . '?act=sua-san-pham' ?>" method="POST" enctype="multipart/form-data">
+                          <div class="card-body">
+                              <div class="form-group">
+                                  <input type="hidden" name="san_pham_id" value="<?= $sanPham['id'] ?>">
+                                  <label for="ten_san_pham">Tên sản phẩm</label>
+                                  <input type="text" id="ten_san_pham" class="form-control" name="ten_san_pham" value="<?= $sanPham['ten_san_pham'] ?>">
+                                  <?php if (isset($_SESSION['error']['ten_san-pham'])) { ?>
+                                      <p class="text-danger"> <?= $_SESSION['error']['ten_san-pham'] ?> </p>
+                                  <?php } ?>
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="gia_san_pham">Giá sản phẩm</label>
+                                  <input type="text" id="gia_san_pham" class="form-control" name="gia_san_pham" value="<?= $sanPham['gia_san_pham'] ?>">
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="gia_khuyen_mai">Giá khuyến mãi</label>
+                                  <input type="text" id="gia_khuyen_mai" class="form-control" name="gia_khuyen_mai" value="<?= $sanPham['gia_khuyen_mai'] ?>">
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="hinh_anh">Hình ảnh</label>
+                                  <input type="file" id="hinh_anh" class="form-control" name="hinh_anh">
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="so_luong">Số Lượng</label>
+                                  <input type="text" id="so_luong" class="form-control" name="so_luong" value="<?= $sanPham['so_luong'] ?>">
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="ngay_nhap">Ngày nhập</label>
+                                  <input type="date" id="ngay_nhap" class="form-control" name="ngay_nhap" value="<?= $sanPham['ngay_nhap'] ?>">
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="inputStatus">Danh mục</label>
+                                  <select id="inputStatus" class="form-control custom_select" name="danh_muc_id">
+                                      <?php foreach ($listDanhMuc as $danhMuc) : ?>
+                                          <option <?= $danhMuc['id'] == $sanPham['danh_muc_id'] ? 'selected' : '' ?> value="<?= $danhMuc['id'] ?>"> <?= $danhMuc['ten_danh_muc'] ?> </option>
+                                      <?php endforeach ?>
+                                  </select>
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="trang_thai">Trạng thái</label>
+                                  <select id="trang_thai" class="form-control custom_select" name="trang_thai">
+                                      <option <?= $sanPham['trang_thai'] == 1 ? 'selected' : '' ?> value="1"> Còn hàng</option>
+                                      <option <?= $sanPham['trang_thai'] == 2 ? 'selected' : '' ?> value="2"> Hết hàng</option>
+                                  </select>
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="mo_ta">Mô tả</label>
+                                  <textarea name="mo_ta" id="mo_ta" class="form-control"><?= $sanPham['mo_ta'] ?></textarea>
+                              </div>
+
                           </div>
-                          <div class="form-group">
-                              <label for="inputDescription">Project Description</label>
-                              <textarea id="inputDescription" class="form-control" rows="4">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terr.</textarea>
+                          <div class="card-footer text-center">
+                              <button type="submit" class="btn btn-primary">Sửa thông tin</button>
                           </div>
-                          <div class="form-group">
-                              <label for="inputStatus">Status</label>
-                              <select id="inputStatus" class="form-control custom-select">
-                                  <option disabled>Select one</option>
-                                  <option>On Hold</option>
-                                  <option>Canceled</option>
-                                  <option selected>Success</option>
-                              </select>
-                          </div>
-                          <div class="form-group">
-                              <label for="inputClientCompany">Client Company</label>
-                              <input type="text" id="inputClientCompany" class="form-control" value="Deveint Inc">
-                          </div>
-                          <div class="form-group">
-                              <label for="inputProjectLeader">Project Leader</label>
-                              <input type="text" id="inputProjectLeader" class="form-control" value="Tony Chicken">
-                          </div>
-                      </div>
+
+                      </form>
                       <!-- /.card-body -->
                   </div>
                   <!-- /.card -->
               </div>
               <div class="col-md-6">
-                  <div class="card card-secondary">
-                      <div class="card-header">
-                          <h3 class="card-title">Budget</h3>
-
-                          <div class="card-tools">
-                              <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                  <i class="fas fa-minus"></i>
-                              </button>
-                          </div>
-                      </div>
-                      <div class="card-body">
-                          <div class="form-group">
-                              <label for="inputEstimatedBudget">Estimated budget</label>
-                              <input type="number" id="inputEstimatedBudget" class="form-control" value="2300" step="1">
-                          </div>
-                          <div class="form-group">
-                              <label for="inputSpentBudget">Total amount spent</label>
-                              <input type="number" id="inputSpentBudget" class="form-control" value="2000" step="1">
-                          </div>
-                          <div class="form-group">
-                              <label for="inputEstimatedDuration">Estimated project duration</label>
-                              <input type="number" id="inputEstimatedDuration" class="form-control" value="20" step="0.1">
-                          </div>
-                      </div>
-                      <!-- /.card-body -->
-                  </div>
                   <!-- /.card -->
                   <div class="card card-info">
                       <div class="card-header">
-                          <h3 class="card-title">Files</h3>
+                          <h3 class="card-title">ALbum sản phẩm</h3>
 
                           <div class="card-tools">
                               <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
