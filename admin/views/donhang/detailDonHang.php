@@ -17,24 +17,27 @@
       <section class="content-header">
           <div class="container-fluid">
               <div class="row mb-2">
-                  <div class="col-sm-6">
+                  <div class="col-sm-9">
                       <h1>Quản lý danh sách đơn hàng - Đơn hàng: <strong> <?= $donHang['ma_don_hang'] ?></strong></h1>
                   </div>
+
+                  <div class="col-sm-3" >
+                      <form action="" method="POST">
+                          <select name="trang_thai_id" id="" class="form-control">
+                              <option value="" disabled></option>
+                              <?php foreach ($listTrangThaiDonHang as $key => $tt) : ?>
+                                  <option
+                                      <?= $tt['id'] == $donHang['trang_thai_id'] ? 'selected' : '' ?>
+                                      <?= $tt['id'] < $donHang['trang_thai_id'] ? 'disabled' : '' ?>
+                                      value="<?= $tt['id'] ?>"> <?= $tt['ten_trang_thai'] ?>
+                                  </option>
+                              <?php endforeach; ?>
+                          </select>
+                      </form>
+                  </div>
               </div>
-              <div>
-                  <form action="" method="POST">
-                      <select name="trang_thai_id" id="" class="form-control">
-                          <option value="" disabled></option>
-                          <?php foreach ($listTrangThaiDonHang as $key => $tt) : ?>
-                              <option
-                                  <?= $tt['id'] == $donHang['trang_thai_id'] ? 'selected' : '' ?>
-                                  <?= $tt['id'] < $donHang['trang_thai_id'] ? 'disabled' : '' ?>
-                                  value="<?= $tt['id'] ?>"> <?= $tt['ten_trang_thai'] ?>
-                              </option>
-                          <?php endforeach; ?>
-                      </select>
-                  </form>
-              </div>
+
+
           </div><!-- /.container-fluid -->
       </section>
 
