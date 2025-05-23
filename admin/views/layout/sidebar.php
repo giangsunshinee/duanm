@@ -69,7 +69,41 @@
               Đơn Hàng
             </p>
           </a>
-
+        </li>
+        <li class="nav-item">
+          <a href="" class="nav-link">
+            <i class="nav-icon fas fa-users"></i>
+            <p>
+              Quản lý tài khoản
+            </p>
+            <i class="right fas fa-angle-left"></i>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="" class="nav-link">
+                <i class="nav-icon fas fa-user"></i>
+                <p>
+                  Tài khoản Khách Hàng
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?= BASE_URL_ADMIN . '?act=list-tai-khoan-quan-tri' ?>" class="nav-link">
+                <i class="nav-icon fas fa-user-shield"></i>
+                <p>
+                  Tài khoản Quản Trị
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="" class="nav-link">
+                <i class="nav-icon fas fa-user-cog"></i>
+                <p>
+                  Tài khoản Cá nhân
+                </p>
+              </a>
+          </ul>
+        </li>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->
