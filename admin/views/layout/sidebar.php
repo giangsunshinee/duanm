@@ -36,7 +36,7 @@
                with font-awesome or any other icon font library -->
 
         <li class="nav-item">
-          <a href="../widgets.html" class="nav-link">
+          <a href="<?= BASE_URL_ADMIN ?>" class="nav-link">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
               Dashboard
