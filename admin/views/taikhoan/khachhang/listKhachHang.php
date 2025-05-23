@@ -18,7 +18,7 @@
           <div class="container-fluid">
               <div class="row mb-2">
                   <div class="col-sm-6">
-                      <h1>Quan Lý tài khoản Quản Trị Viên </h1>
+                      <h1>Quan Lý tài khoản Khách Hàng </h1>
                   </div>
               </div>
           </div><!-- /.container-fluid -->
@@ -30,18 +30,14 @@
               <div class="row">
                   <div class="col-12">
                       <div class="card">
-                          <div class="card-header">
-                              <a href="<?= BASE_URL_ADMIN . '?act=form-them-quan-tri' ?>">
-                                  <button class="btn btn-success">Thêm Tài Khoản Quản Trị</button>
-                              </a>
-                          </div>
                           <!-- /.card-header -->
                           <div class="card-body">
                               <table id="example1" class="table table-bordered table-striped">
                                   <thead>
                                       <tr>
                                           <th>STT</th>
-                                          <th>Họ ttên</th>
+                                          <th>Họ tên</th>
+                                          <th>Ảnh đại diện</th>
                                           <th>Email</th>
                                           <th>Số điện thoại</th>
                                           <th>Trạng thái</th>
@@ -49,21 +45,25 @@
                                       </tr>
                                   </thead>
                                   <tbody>
-                                      <?php foreach ($listQuanTri as $key => $quantri) : ?>
+                                      <?php foreach ($listKhachHang as $key => $khacHang) : ?>
                                           <tr>
                                               <td><?= $key + 1 ?></td>
-                                              <td><?= $quantri['ho_ten'] ?></td>
-                                              <td><?= $quantri['email'] ?></td>
-                                              <td><?= $quantri['so_dien_thoai'] ?></td>
-                                              <td><?= $quantri['trang_thai'] == 1 ? 'Hoạt động' : 'Ngừng hoạt động' ?></td>
+                                              <td><?= $khacHang['ho_ten'] ?></td>
                                               <td>
-                                                  <a href="<?= BASE_URL_ADMIN . '?act=chi-tiet-quan-tri&id_quan_tri=' . $quantri['id'] ?>">
+                                                  <img src="<?= BASE_URL . $khachHang['anh_dai_dien'] ?>" alt="" width="100px" height="100px"
+                                                      onerror="this.onerror=null; this.src='https://media.dolenglish.vn/PUBLIC/MEDIA/2b2f1391-7dcd-4d41-b1eb-2273c8cd00de.jpg'" />
+                                              </td>
+                                              <td><?= $khacHang['email'] ?></td>
+                                              <td><?= $khacHang['so_dien_thoai'] ?></td>
+                                              <td><?= $khacHang['trang_thai'] == 1 ? 'Hoạt động' : 'Ngừng hoạt động' ?></td>
+                                              <td>
+                                                  <a href="<?= BASE_URL_ADMIN . '?act=chi-tiet-khach-hang&id_khach_hang=' . $khacHang['id'] ?>">
                                                       <button class="btn btn-info">Chi tiết</button>
                                                   </a>
-                                                  <a href="<?= BASE_URL_ADMIN . '?act=form-sua-quan-tri&id_quan_tri=' . $quantri['id'] ?>">
+                                                  <a href="<?= BASE_URL_ADMIN . '?act=form-sua-khach-hang&id_khach_hang=' . $khacHang['id'] ?>">
                                                       <button class="btn btn-primary">Sửa</button>
                                                   </a>
-                                                  <a href="<?= BASE_URL_ADMIN . '?act=reset-password&id_quan_tri=' . $quantri['id'] ?>" onclick="return confirm('Bạn có chắc chắn muốn reset mật khẩu tài khoản này không?')">
+                                                  <a href="<?= BASE_URL_ADMIN . '?act=reset-password&id_quan_tri=' . $khacHang['id'] ?>" onclick="return confirm('Bạn có chắc chắn muốn reset mật khẩu tài khoản này không?')">
                                                       <button class="btn btn-danger">Reset</button>
                                                   </a>
                                               </td>
@@ -73,7 +73,8 @@
                                   <tfoot>
                                       <tr>
                                           <th>STT</th>
-                                          <th>Họ ttên</th>
+                                          <th>Họ tên</th>
+                                          <th>Ảnh đại diện</th>
                                           <th>Email</th>
                                           <th>Số điện thoại</th>
                                           <th>Trạng thái</th>
