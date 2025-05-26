@@ -3,10 +3,14 @@
 class AdminTaiKhoanController
 {
     public $modelTaiKhoan;
+    public $modelDonHang;
+    public $modelSanPham;
 
     public function __construct()
     {
         $this->modelTaiKhoan = new AdminTaiKhoan();
+        $this->modelDonHang = new AdminDonHang();
+        $this->modelSanPham = new AdminSanPham();
     }
 
     public function danhSachQuanTri()
@@ -203,5 +207,15 @@ class AdminTaiKhoanController
                 exit();
             }
         }
+    }
+
+    public function detailKhachHang()
+    {
+        $id_khach_hang = $_GET['id_khach_hang'];
+        $khachHang = $this->modelTaiKhoan->getDetailTaiKhoan($id_khach_hang);
+        $listDonHang = $this->modelTaiKhoan->getDonHangFromKhachHang($id_khach_hang);
+        $listBinhLuan = $this->modelSanPham->getBinhLuanFromKhachHang($id_khach_hang);
+
+        require_once '../admin/views/taikhoan/khachhang/detailKhachHang.php';
     }
 }

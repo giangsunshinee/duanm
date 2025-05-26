@@ -71,35 +71,57 @@
                           <div class="tab-content p-3" id="nav-tabContent">
                               <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab"> <?= $sanPham['mo_ta'] ?></div>
                               <div class="tab-pane fade" id="product-comments" role="tabpanel" aria-labelledby="product-comments-tab">
-                                  <table class="table table-bordered table-striped table-hover">
-                                      <tr>
-                                          <th>#</th>
-                                          <th>tên người bình luận</th>
-                                          <th>Nội dung</th>
-                                          <th>Ngày đăng</th>
-                                          <th>Thao tác</th>
-                                      </tr>
-                                      <tr>
-                                          <td>1</td>
-                                          <td>Nguyễn Trường Giang</td>
-                                          <td>đôi này xấu quá</td>
-                                          <td>13/06/2004</td>
-                                          <td>
-                                              <a href="#" class="btn btn-warning">Ẩn</a>
-                                              <a href="#" class="btn btn-danger">Xóa</a>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>2</td>
-                                          <td>Nguyễn Thị Ánh Tuyết</td>
-                                          <td>đôi này đẹp quá</td>
-                                          <td>11/01/2004</td>
-                                          <td>
-                                              <a href="#" class="btn btn-warning">Ẩn</a>
-                                              <a href="#" class="btn btn-danger">Xóa</a>
-                                          </td>
-                                      </tr>
-                                  </table>
+                                  <div class="col-12">
+                                      <div class="card">
+                                          <div class="">
+                                              <table id="example2" class="table table-bordered table-striped">
+                                                  <thead>
+                                                      <tr>
+                                                          <th>STT</th>
+                                                          <th>Tên sản phẩm</th>
+                                                          <th>Nội dung bình luận</th>
+                                                          <th>Ngày bình luận</th>
+                                                          <th>Trạng thái</th>
+                                                          <th>Thao Tác</th>
+                                                      </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                      <?php foreach ($listBinhLuan as $key => $binhLuan) : ?>
+                                                          <tr>
+                                                              <td><?= $key + 1 ?></td>
+                                                              <td><a target="_blank" href="<?= BASE_URL_ADMIN . '?act=chi-tiet-khach-hang&id_khach_hang=' . $binhLuan['tai_khoan_id']; ?>"><?= $binhLuan['ho_ten'] ?></a></td>
+                                                              <td><?= $binhLuan['noi_dung'] ?></td>
+                                                              <td><?= date('d/m/Y', strtotime($binhLuan['ngay_dang'])) ?></td>
+                                                              <td><?= $binhLuan['trang_thai'] == 1 ? 'Hiển thị' : 'Ẩn' ?></td>
+                                                              <td>
+                                                                  <form action="<?= BASE_URL_ADMIN . '?act=update-trang-thai-binh-luan' ?> " method="POST">
+                                                                      <input type="hidden" name="id_binh_luan" value="<?= $binhLuan['id'] ?>">
+                                                                      <input type="hidden" name="name_view" value="detail-sanpham">
+                                                                      <input type="hidden" name="id_khach_hang" value="<?= $binhLuan['tai_khoan_id'] ?>">
+                                                                      <button onclick="return confirm('Có chắc bạn muốn ẩn bình luận này không không ? ')" class="btn btn-warning">
+                                                                          <?= $binhLuan['trang_thai'] == 1 ? 'Ẩn' : 'Bỏ Ẩn' ?>
+                                                                      </button>
+                                                                  </form>
+                                                              </td>
+                                                          </tr>
+                                                      <?php endforeach ?>
+                                                  </tbody>
+                                                  <tfoot>
+                                                      <tr>
+                                                          <th>STT</th>
+                                                          <th>Tên sản phẩm</th>
+                                                          <th>Nội dung bình luận</th>
+                                                          <th>Ngày bình luận</th>
+                                                          <th>Trạng thái</th>
+                                                          <th>Thao Tác</th>
+                                                      </tr>
+                                                  </tfoot>
+                                              </table>
+                                          </div>
+                                          <!-- /.card -->
+                                      </div>
+                                      <!-- /.content -->
+                                  </div>
                               </div>
                               <div class="tab-pane fade" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab"> </div>
                           </div>
