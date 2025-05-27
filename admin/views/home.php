@@ -23,34 +23,35 @@
               </div>
           </div><!-- /.container-fluid -->
       </section>
-
       <!-- Main content -->
+      <pre>
+      <?php var_dump($_SESSION['user_admin']); ?>
+      </pre>
+  </div>
+  <!-- Footer -->
+  <?php include_once 'views/layout/footer.php'; ?>
 
-
-      <!-- Footer -->
-      <?php include_once 'views/layout/footer.php'; ?>
-
-      <!-- End Footer -->
-      <script>
-          $(function() {
-              $("#example1").DataTable({
-                  "responsive": true,
-                  "lengthChange": false,
-                  "autoWidth": false,
-                  "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-              }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-              $('#example2').DataTable({
-                  "paging": true,
-                  "lengthChange": false,
-                  "searching": false,
-                  "ordering": true,
-                  "info": true,
-                  "autoWidth": false,
-                  "responsive": true,
-              });
+  <!-- End Footer -->
+  <script>
+      $(function() {
+          $("#example1").DataTable({
+              "responsive": true,
+              "lengthChange": false,
+              "autoWidth": false,
+              "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+          }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+          $('#example2').DataTable({
+              "paging": true,
+              "lengthChange": false,
+              "searching": false,
+              "ordering": true,
+              "info": true,
+              "autoWidth": false,
+              "responsive": true,
           });
-      </script>
-      <!-- Code injected by live-server -->
-      </body>
+      });
+  </script>
+  <!-- Code injected by live-server -->
+  </body>
 
-      </html>
+  </html>

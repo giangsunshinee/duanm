@@ -6,6 +6,7 @@ session_start();
 require_once '../commons/env.php'; // Khai báo biến môi trường
 require_once '../commons/function.php'; // Hàm hỗ trợ
 
+
 // Require toàn bộ file Controllers
 require_once '../admin/controllers/AdminDanhMucController.php';
 require_once '../admin/controllers/AdminSanPhamController.php';
@@ -22,6 +23,10 @@ require_once './models/AdminTaiKhoan.php';
 // Route
 $act = $_GET['act'] ?? '/';
 
+// Kiểm tra đăng nhập
+if ($act !== 'login-admin' && $act !== 'check-login-admin' && $act !== 'logout-admin') {
+    checkLoginAdmin();
+}
 
 match ($act) {
     //route báo cáo thống kê - trang chủ
@@ -57,7 +62,7 @@ match ($act) {
     'them-quan-tri' => (new AdminTaiKhoanController())->postAddQuanTri(),
     'form-sua-quan-tri' => (new AdminTaiKhoanController())->formEditQuanTri(),
     'sua-quan-tri' => (new AdminTaiKhoanController())->postEditQuanTri(),
-    
+
     //route reset mật khẩu password tài khoản quản trị
     'reset-password' => (new AdminTaiKhoanController())->resetPassword(),
 
@@ -70,4 +75,9 @@ match ($act) {
     //route bình luận 
     'update-trang-thai-binh-luan' => (new AdminSanPhamController())->updateTrangThaiBinhLuan(),
 
+    // route Auth 
+
+    'login-admin' => (new AdminTaiKhoanController())->formLogin(),
+    'check-login-admin' => (new AdminTaiKhoanController())->login(),
+    'logout-admin' => (new AdminTaiKhoanController())->logout(),
 };

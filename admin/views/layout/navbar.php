@@ -17,6 +17,10 @@
        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
          <i class="fas fa-expand-arrows-alt"></i>
        </a>
+       <a class="nav-link" href="<?= BASE_URL_ADMIN . '?act=logout-admin' ?>" role="button" onclick="return confirm('Bạn có chắc chắn muốn đăng xuất?')">
+         <i class="fas fa-sign-out-alt"></i>
+         <span class="d-none d-sm-inline">Đăng xuất</span>       
+       </a>
      </li>
    </ul>
  </nav>
