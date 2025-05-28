@@ -170,5 +170,18 @@ class AdminTaiKhoan
         }
     }
 
-
+    public function getTaiKhoanFormEmail($email)
+    {
+        try {
+            $sql = 'SELECT * FROM tai_khoans WHERE email = :email';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                ':email' => $email
+            ]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Lỗi: " . $e->getMessage();
+            return [];
+        }
+    }
 }

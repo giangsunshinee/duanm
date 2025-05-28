@@ -83,7 +83,7 @@
               <a href="<?= BASE_URL_ADMIN . '?act=list-tai-khoan-khach-hang' ?>" class="nav-link">
                 <i class="nav-icon fas fa-user"></i>
                 <p>
-                  Tài khoản Khách Hàng 
+                  Tài khoản Khách Hàng
                 </p>
               </a>
             </li>
@@ -96,7 +96,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="" class="nav-link">
+              <a href="<?= BASE_URL_ADMIN . '?act=form-sua-thong-tin-ca-nhan-quan-tri' ?> " class="nav-link">
                 <i class="nav-icon fas fa-user-cog"></i>
                 <p>
                   Tài khoản Cá nhân
