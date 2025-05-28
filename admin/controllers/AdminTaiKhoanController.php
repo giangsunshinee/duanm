@@ -222,7 +222,8 @@ class AdminTaiKhoanController
     public function formLogin()
     {
         require_once '../admin/views/auth/formLogin.php';
-        deleteSessionError();
+        // deleteSessionError();
+        exit();
     }
 
     public function login()
@@ -269,5 +270,55 @@ class AdminTaiKhoanController
         $thongTin = $this->modelTaiKhoan->getTaiKhoanFormEmail($email);
         require_once '../admin/views/taikhoan/canhan/editCaNhan.php';
         deleteSessionError();
+    }
+
+    public function postEditMatKhauCaNhanQuanTri()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $old_pass = $_POST['old_pass'];
+            $new_pass = $_POST['new_pass'];
+            $confirm_pass = $_POST['confirm_pass'];
+
+            $user = $this->modelTaiKhoan->getTaiKhoanFormEmail($_SESSION['user_admin']);
+
+            $checkPass = password_verify($old_pass, $user['mat_khau']);
+
+            $errors = [];
+
+            // Validate dữ liệu
+            if (empty($checkPass)) {
+                $errors['old_pass'] = 'Mật khẩu cũ không đúng';
+            }
+            if ($new_pass !== $confirm_pass) {
+                $errors['confirm_pass'] = 'Mật khẩu mới không khớp';
+            }
+            if (empty($old_pass)) {
+                $errors['old_pass'] = 'Mật khẩu cũ không được để trống';
+            }
+            if (empty($new_pass)) {
+                $errors['new_pass'] = 'Mật khẩu mới không được để trống';
+            }
+            if (empty($confirm_pass)) {
+                $errors['confirm_pass'] = 'Vui lòng xác nhận mật khẩu mới';
+            }
+
+            $_SESSION['error'] = $errors;
+
+            // Nếu không có lỗi thì xử lý cập nhật mật khẩu
+            if (!$errors) {
+                $hashPass = password_hash($new_pass, PASSWORD_BCRYPT);
+                $status =  $this->modelTaiKhoan->resetPassword($user['id'], $hashPass);
+                if ($status) {
+                    $_SESSION['success'] = "Mật khẩu đã được cập nhật thành công";
+                    $_SESSION['flash'] = true;
+                    header('Location: ' . BASE_URL_ADMIN . '?act=form-sua-thong-tin-ca-nhan-quan-tri');
+                    exit();
+                }
+            } else {
+                $_SESSION['flash'] = true;
+                header('Location: ' . BASE_URL_ADMIN . '?act=form-sua-thong-tin-ca-nhan-quan-tri');
+                exit();
+            }
+        }
     }
 }

@@ -95,25 +95,48 @@
                           </div>
                   </form>
                   <hr>
+                  <?php if (isset($_SESSION['success'])) { ?>
+                      <div class="alert alert-info alert-dismissable">
+                          <a class="panel-close close" data-dismiss="alert">×</a>
+                          <strong>Thông báo!</strong> <?= $_SESSION['success'] ?>
+                      </div>
+                  <?php } ?>
+
                   <h3>Đổi mật khẩu</h3>
                   <p>Để bảo mật tài khoản của bạn, vui lòng không chia sẻ mật khẩu với bất kỳ ai.</p>
+
                   <form action="<?= BASE_URL_ADMIN . '?act=sua-mat-khau-ca-nhan-quan-tri' ?>" method="POST">
                       <div class="form-group">
                           <label class="col-md-3 control-label">Mật khẩu cũ :</label>
                           <div class="col-md-12">
-                              <input class="form-control" type="password" value="11111122333">
+                              <input class="form-control" type="text" name="old_pass" value="">
+                              <?php if (isset($_SESSION['error']['old_pass'])) { ?>
+                                  <p class="alert alert-danger" role="alert">
+                                      <?= $_SESSION['error']['old_pass'] ?>
+                                  </p>
+                              <?php } ?>
                           </div>
                       </div>
                       <div class="form-group">
                           <label class="col-md-3 control-label">Mật khẩu mới :</label>
                           <div class="col-md-12">
-                              <input class="form-control" type="password" value="11111122333">
+                              <input class="form-control" type="text" name="new_pass" value="">
+                              <?php if (isset($_SESSION['error']['new_pass'])) { ?>
+                                  <p class="alert alert-danger" role="alert">
+                                      <?= $_SESSION['error']['new_pass'] ?>
+                                  </p>
+                              <?php } ?>
                           </div>
                       </div>
                       <div class="form-group">
                           <label class="col-md-3 control-label">Nhập lại mật khẩu mới :</label>
                           <div class="col-md-12">
-                              <input class="form-control" type="password" value="11111122333">
+                              <input class="form-control" type="text" name="confirm_pass" value="">
+                              <?php if (isset($_SESSION['error']['confirm_pass'])) { ?>
+                                  <p class="alert alert-danger" role="alert">
+                                      <?= $_SESSION['error']['confirm_pass'] ?>
+                                  </p>
+                              <?php } ?>
                           </div>
                       </div>
                       <div class="form-group">
