@@ -3,11 +3,13 @@
 class HomeController
 {
     public $modelSanPham;
+    public $modelTaiKhoan;
 
     public function __construct()
     {
         // Khởi tạo model
         $this->modelSanPham = new SanPham();
+        $this->modelTaiKhoan = new TaiKhoan();
     }
 
     public function home()
@@ -43,6 +45,43 @@ class HomeController
         } else {
             header('Location: ' . BASE_URL);
             exit();
+        }
+    }
+
+    public function formLogin()
+    {
+        require_once './views/auth/formLogin.php';
+        // deleteSessionError();
+        exit();
+    }
+
+    public function postLogin()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $email = $_POST['email'];
+            $password = $_POST['mat_khau'];
+
+            // var_dump($email, $password);
+            // die();
+
+            $user = $this->modelTaiKhoan->checkLogin($email, $password);
+
+            // var_dump($user);
+            //  die();
+
+            if ($user == $email) { // Nếu đăng nhập thành công
+                $_SESSION['user_admin'] = $user; // Lưu thông tin người dùng vào session
+                header('Location: ' . BASE_URL);
+                exit();
+            } else {  // Nếu đăng nhập thất bại
+                $_SESSION['error'] = $user; // Lưu thông báo lỗi vào session
+
+                $_SESSION['flash'] = true; // Đánh dấu có thông báo lỗi
+
+                // Chuyển hướng về trang đăng nhập
+                header('Location: ' . BASE_URL . '?act=login');
+                exit();
+            }
         }
     }
 }
