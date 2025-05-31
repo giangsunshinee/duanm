@@ -21,7 +21,19 @@ class SanPham
             $stmt->execute();
 
             return $stmt->fetchAll();
-            
+        } catch (PDOException $e) {
+            echo "Lỗi kết nối database: " . $e->getMessage();
+        }
+    }
+
+    public function getAllSanPham()
+    {
+        $sql = 'SELECT san_phams.*, danh_mucs.ten_danh_muc FROM san_phams
+            INNER JOIN danh_mucs ON san_phams.danh_muc_id = danh_mucs.id';
+        try {
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll();
         } catch (PDOException $e) {
             echo "Lỗi kết nối database: " . $e->getMessage();
         }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class HomeController
 {
@@ -12,8 +12,8 @@ class HomeController
 
     public function home()
     {
-        // Gọi view
-        echo 'Home page1';
+        $listSanPham = $this->modelSanPham->getAllSanPham();
+        require_once './views/home.php';
     }
 
     public function trangchu()
@@ -21,7 +21,7 @@ class HomeController
         // Gọi view
         echo 'Home page2';
     }
-  
+
     public function danhSachSanPham()
     {
         // Gọi view
@@ -30,7 +30,4 @@ class HomeController
         // var_dump($listProduct);die();
         require_once  './views/listProduct.php';
     }
-
-
-
 }
