@@ -2,11 +2,6 @@
 
 <?php require_once 'layout/menu.php'; ?>
 
-<?=
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-?>
 <main>
     <!-- hero slider area start -->
     <section class="slider-area">
@@ -158,7 +153,7 @@ error_reporting(E_ALL);
                                     <?php foreach ($listSanPham as $key => $sanPham): ?>
                                         <div class="product-item">
                                             <figure class="product-thumb">
-                                                <a href="product-details.html">
+                                                <a href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id'] ?>">
                                                     <img class="pri-img" src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="product">
                                                     <img class="sec-img" src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="product">
                                                 </a>
@@ -186,7 +181,7 @@ error_reporting(E_ALL);
                                             </figure>
                                             <div class="product-caption text-center">
                                                 <h6 class="product-name">
-                                                    <a href="product-details.html"><?= $sanPham['ten_san_pham'] ?></a>
+                                                    <a href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id'] ?>"><?= $sanPham['ten_san_pham'] ?></a>
                                                 </h6>
                                                 <div class="price-box">
                                                     <?php if ($sanPham['gia_khuyen_mai']) { ?>
@@ -195,7 +190,6 @@ error_reporting(E_ALL);
                                                     <?php } else { ?>
                                                         <span class="price-regular"><?= number_format($sanPham['gia_san_pham'], 0, ',', '.') ?>₫</span>
                                                     <?php } ?>
-
                                                 </div>
                                             </div>
                                         </div>

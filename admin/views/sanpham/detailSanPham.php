@@ -78,7 +78,7 @@
                                                   <thead>
                                                       <tr>
                                                           <th>STT</th>
-                                                          <th>Tên sản phẩm</th>
+                                                          <th>Tên khách hàng</th>
                                                           <th>Nội dung bình luận</th>
                                                           <th>Ngày bình luận</th>
                                                           <th>Trạng thái</th>
@@ -109,7 +109,7 @@
                                                   <tfoot>
                                                       <tr>
                                                           <th>STT</th>
-                                                          <th>Tên sản phẩm</th>
+                                                          <th>Tên khách hàng</th>
                                                           <th>Nội dung bình luận</th>
                                                           <th>Ngày bình luận</th>
                                                           <th>Trạng thái</th>

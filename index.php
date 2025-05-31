@@ -29,4 +29,6 @@ match ($act) {
 
     'danh-sach-san-pham' => (new HomeController())->danhSachSanPham(),
     // base_url /?act=danh-sach-san-pham
+
+    'chi-tiet-san-pham' => (new HomeController())->chiTietSanPham(),
 };
