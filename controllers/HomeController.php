@@ -4,12 +4,14 @@ class HomeController
 {
     public $modelSanPham;
     public $modelTaiKhoan;
+    public $modelGioHang;
 
     public function __construct()
     {
         // Khởi tạo model
         $this->modelSanPham = new SanPham();
         $this->modelTaiKhoan = new TaiKhoan();
+        $this->modelGioHang = new GioHang();
     }
 
     public function home()
@@ -70,7 +72,7 @@ class HomeController
             //  die();
 
             if ($user == $email) { // Nếu đăng nhập thành công
-                $_SESSION['user_admin'] = $user; // Lưu thông tin người dùng vào session
+                $_SESSION['user_client'] = $user; // Lưu thông tin người dùng vào session
                 header('Location: ' . BASE_URL);
                 exit();
             } else {  // Nếu đăng nhập thất bại
@@ -82,6 +84,78 @@ class HomeController
                 header('Location: ' . BASE_URL . '?act=login');
                 exit();
             }
+        }
+    }
+
+    public function logout()
+    {
+        if (isset($_SESSION['user_client'])) {
+            unset($_SESSION['user_client']);
+        }
+        header('Location: ' . BASE_URL . '?act=login');
+    }
+
+    public function addGioHang()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (isset($_SESSION['user_client'])) {
+                $mail = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+
+                $gioHang = $this->modelGioHang->getGioHangFromUser($mail['id']);
+                if (!$gioHang) {
+                    $gioHangId = $this->modelGioHang->addGioHang($mail['id']);
+                    $gioHang = ['id' => $gioHangId];
+                } else {
+                    $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+                }
+
+                $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+            } else {
+                $_SESSION['error'] = 'Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.';
+                header('Location: ' . BASE_URL . '?act=login');
+                exit();
+            }
+            $san_pham_id = $_POST['san_pham_id'];
+            $so_luong = $_POST['so_luong'];
+            $checkSanPham = false;
+
+            foreach ($chiTietGioHang as $detail) {
+                if ($detail['san_pham_id'] == $san_pham_id) {
+                    $newSoLuong = $detail['so_luong'] + $so_luong;
+                    $this->modelGioHang->updateSoLuong($gioHang['id'], $san_pham_id, $newSoLuong);
+                    $checkSanPham = true;
+                }
+            }
+
+            if (!$checkSanPham) {
+                $this->modelGioHang->addDetalGioHang($gioHang['id'], $san_pham_id, $so_luong);
+            }
+
+            header('Location: ' . BASE_URL . '?act=gio-hang');
+        } else {
+            $_SESSION['error'] = 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.';
+            header('Location: ' . BASE_URL . '?act=login');
+            exit();
+        }
+    }
+
+    public function gioHang()
+    {
+        if (isset($_SESSION['user_client'])) {
+            $mail = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+            $gioHang = $this->modelGioHang->getGioHangFromUser($mail['id']);
+            if ($gioHang) {
+                $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+                require_once './views/gioHang.php';
+            } else {
+                $_SESSION['error'] = 'Giỏ hàng của bạn hiện đang trống.';
+                header('Location: ' . BASE_URL);
+                exit();
+            }
+        } else {
+            $_SESSION['error'] = 'Bạn cần đăng nhập để xem giỏ hàng.';
+            header('Location: ' . BASE_URL . '?act=login');
+            exit();
         }
     }
 }
