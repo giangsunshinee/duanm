@@ -144,14 +144,14 @@ class HomeController
         if (isset($_SESSION['user_client'])) {
             $mail = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
             $gioHang = $this->modelGioHang->getGioHangFromUser($mail['id']);
-            if ($gioHang) {
+            if (!$gioHang) {
+                $gioHangId = $this->modelGioHang->addGioHang($mail['id']);
+                $gioHang = ['id' => $gioHangId];
                 $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
-                require_once './views/gioHang.php';
             } else {
-                $_SESSION['error'] = 'Giỏ hàng của bạn hiện đang trống.';
-                header('Location: ' . BASE_URL);
-                exit();
+                $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
             }
+            require_once './views/gioHang.php';
         } else {
             $_SESSION['error'] = 'Bạn cần đăng nhập để xem giỏ hàng.';
             header('Location: ' . BASE_URL . '?act=login');
@@ -161,6 +161,21 @@ class HomeController
 
     public function thanhToan()
     {
-        require_once './views/thanhToan.php';
+        if (isset($_SESSION['user_client'])) {
+            $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+            $gioHang = $this->modelGioHang->getGioHangFromUser($user['id']);
+            if (!$gioHang) {
+                $gioHangId = $this->modelGioHang->addGioHang($user['id']);
+                $gioHang = ['id' => $gioHangId];
+                $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+            } else {
+                $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+            }
+            require_once './views/thanhToan.php';
+        } else {
+            $_SESSION['error'] = 'Bạn cần đăng nhập để xem giỏ hàng.';
+            header('Location: ' . BASE_URL . '?act=login');
+            exit();
+        }
     }
 }

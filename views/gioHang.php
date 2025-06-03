@@ -71,6 +71,7 @@
                                              <td class="pro-subtotal">
                                                  <?php
                                                     // Tính tổng tiền cho sản phẩm
+                                                    $tongTien = 0;
                                                     if ($sanPham['gia_khuyen_mai']) {
                                                         $tongTien = $sanPham['gia_khuyen_mai'] *  $sanPham['so_luong'];
                                                     } else {
