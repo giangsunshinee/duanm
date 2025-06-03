@@ -293,5 +293,5 @@
      }
  </style>
  
- <?php require_once 'layout/miniCart.php'  ?>
- <?php require_once 'layout/footer.php'  ?>
+ <?php require_once 'layout/miniCart.php';  ?>
+ <?php require_once 'layout/footer.php';  ?>

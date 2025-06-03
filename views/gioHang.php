@@ -125,7 +125,7 @@
                                      </table>
                                  </div>
                              </div>
-                             <a href="checkout.html" class="btn btn-sqr d-block">tiến hành đặt hàng</a>
+                             <a href="<?= BASE_URL . "?act=thanh-toan" ?>" class="btn btn-sqr d-block">tiến hành đặt hàng</a>
                          </div>
                      </div>
                  </div>
@@ -135,5 +135,5 @@
      <!-- cart main wrapper end -->
  </main>
 
- <?php require_once 'layout/miniCart.php'  ?>
- <?php require_once 'layout/footer.php'  ?>
+ <?php require_once 'layout/miniCart.php';  ?>
+ <?php require_once 'layout/footer.php';  ?>

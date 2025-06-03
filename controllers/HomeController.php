@@ -158,4 +158,9 @@ class HomeController
             exit();
         }
     }
+
+    public function thanhToan()
+    {
+        require_once './views/thanhToan.php';
+    }
 }
