@@ -5,6 +5,7 @@ class HomeController
     public $modelSanPham;
     public $modelTaiKhoan;
     public $modelGioHang;
+    public $modelDonhang;
 
     public function __construct()
     {
@@ -12,11 +13,23 @@ class HomeController
         $this->modelSanPham = new SanPham();
         $this->modelTaiKhoan = new TaiKhoan();
         $this->modelGioHang = new GioHang();
+        $this->modelDonhang = new DonHang();
     }
 
     public function home()
     {
         $listSanPham = $this->modelSanPham->getAllSanPham();
+
+        $mail = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+        $gioHang = $this->modelGioHang->getGioHangFromUser($mail['id']);
+        if (!$gioHang) {
+            $gioHangId = $this->modelGioHang->addGioHang($mail['id']);
+            $gioHang = ['id' => $gioHangId];
+            $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+        } else {
+            $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+        }
+
         require_once './views/home.php';
     }
 
@@ -42,6 +55,17 @@ class HomeController
         $listAnhSanPham = $this->modelSanPham->getlistAnhSanPham($id);
         $listBinhLuan = $this->modelSanPham->getBinhLuanFromSanPham($id);
         $listSanPhamCungDanhMuc = $this->modelSanPham->getSanPhamDanhMuc($sanPham['danh_muc_id']);
+
+        $mail = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+        $gioHang = $this->modelGioHang->getGioHangFromUser($mail['id']);
+        if (!$gioHang) {
+            $gioHangId = $this->modelGioHang->addGioHang($mail['id']);
+            $gioHang = ['id' => $gioHangId];
+            $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+        } else {
+            $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+        }
+
         if ($sanPham) {
             require_once './views/detailSanPham.php';
         } else {
@@ -176,6 +200,68 @@ class HomeController
             $_SESSION['error'] = 'Bạn cần đăng nhập để xem giỏ hàng.';
             header('Location: ' . BASE_URL . '?act=login');
             exit();
+        }
+    }
+
+    public function postThanhToan()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $ten_nguoi_nhan = $_POST['ten_nguoi_nhan'];
+            $email_nguoi_nhan = $_POST['email_nguoi_nhan'];
+            $sdt_nguoi_nhan = $_POST['sdt_nguoi_nhan'];
+            $dia_chi_nguoi_nhan = $_POST['dia_chi_nguoi_nhan'];
+            $ghi_chu = $_POST['ghi_chu'];
+            $tong_tien = $_POST['tong_tien'];
+            $phuong_thuc_thanh_toan_id = $_POST['phuong_thuc_thanh_toan_id'];
+            $ngay_dat = date('Y-m-d');
+            $trang_thai_id = 1;
+            $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+            $tai_khoan_id = $user['id'];
+            $ma_don_hang = 'DH-' . rand(1000, 9999); // Tạo mã đơn hàng duy nhất
+
+            $donHang = $this->modelDonhang->addDonHang(
+                $tai_khoan_id,
+                $ten_nguoi_nhan,
+                $email_nguoi_nhan,
+                $sdt_nguoi_nhan,
+                $dia_chi_nguoi_nhan,
+                $ghi_chu,
+                $tong_tien,
+                $phuong_thuc_thanh_toan_id,
+                $ngay_dat,
+                $ma_don_hang,
+                $trang_thai_id
+            );
+
+            // var_dump('them thanh cong');
+            // die();
+
+            $gioHang = $this->modelGioHang->getGioHangFromUser($tai_khoan_id);
+            if ($donHang) {
+                $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+
+                foreach ($chiTietGioHang as $item) {
+                    $donGia = $item['gia_khuyen_mai'] ?? $item['gia_san_pham'];
+                    $this->modelDonhang->addChiTietDonHang(
+                        $donHang,
+                        $item['san_pham_id'],
+                        $item['so_luong'],
+                        $donGia,
+                        $item['thanh_tien'] = $donGia * $item['so_luong']
+
+                    );
+                }
+            }
+
+            $this->modelDonhang->clearDetailGioHang($gioHang['id']);
+
+            $this->modelDonhang->clearGioHang($tai_khoan_id);
+
+            header('Location: ' . BASE_URL . '?act=gio-hang');
+            exit();
+        } else {
+            var_dump('loi thanh toan khong thanh cong');
+            die();
         }
     }
 }
