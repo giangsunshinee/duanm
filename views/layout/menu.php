@@ -65,6 +65,7 @@
                                             <?php if (isset($_SESSION['user_client'])): ?>
                                                 <li><a href="profile.php">Tài khoản của tôi</a></li>
                                                 <li><a href="<?= BASE_URL . '?act=logout' ?>">Đăng xuất</a></li>
+                                                <li><a href="<?= BASE_URL . '?act=lich-su-mua-hang' ?>">Lịch sử mua hàng</a></li>
                                             <?php else: ?>
                                                 <li><a href="<?= BASE_URL . '?act=login' ?>">Đăng nhập</a></li>
                                                 <li><a href="register.php">Đăng ký</a></li>

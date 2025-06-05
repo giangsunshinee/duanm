@@ -257,11 +257,68 @@ class HomeController
 
             $this->modelDonhang->clearGioHang($tai_khoan_id);
 
-            header('Location: ' . BASE_URL . '?act=gio-hang');
+            header('Location: ' . BASE_URL . '?act=lich-su-mua-hang');
             exit();
         } else {
             var_dump('loi thanh toan khong thanh cong');
             die();
+        }
+    }
+
+    public function lichSuMuaHang()
+    {
+        if (isset($_SESSION['user_client'])) {
+            $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+            $tai_khoan_id = $user['id'];
+
+            $arrTrangThaiDonHang = $this->modelDonhang->getTrangThaiDonHang();
+            $trangThaiDonHang = array_column($arrTrangThaiDonHang, 'ten_trang_thai', 'id');
+            // echo "<pre>";
+            // print_r($trangThaiDonHang);
+            // die;
+
+            $arrPhuongThucThanhToan = $this->modelDonhang->getPhuongThucThanhToan();
+            $phuongThucThanhToan = array_column($arrPhuongThucThanhToan, 'ten_phuong_thuc', 'id');
+            // echo "<pre>";
+            // print_r($phuongThucThanhToan);
+            // die;
+
+            $donHangs = $this->modelDonhang->getDonHangFromUser($tai_khoan_id);
+            require_once './views/lichSuMuaHang.php';
+        } else {
+            $_SESSION['error'] = 'Bạn cần đăng nhập để xem lịch sử mua hàng.';
+            header('Location: ' . BASE_URL . '?act=login');
+            exit();
+        }
+    }
+
+    public function chiTietMuaHang() {}
+
+    public function huyDonHang()
+    {
+        if (isset($_SESSION['user_client'])) {
+            $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+            $tai_khoan_id = $user['id'];
+
+            $donHangId = $_GET['id'];
+
+            $donHang = $this->modelDonhang->getDonHangById($donHangId);
+            if ($donHang['tai_khoan_id'] != $tai_khoan_id) {
+                echo "Bạn không có quyền huỷ đơn hàng này !";
+                exit;
+            }
+
+            if ($donHang['trang_thai_id'] != 1) {
+                echo "Chỉ đơn hàng chưa xác nhận thì có thể hủy !";
+                exit;
+            }
+
+            $this->modelDonhang->updateTrangThaiDonHang($donHangId, 11);
+            header('Location: ' . BASE_URL . '?act=lich-su-mua-hang');
+        } else {
+            $_SESSION['error'] = 'Bạn cần đăng nhập để xem lịch sử mua hàng.';
+            header('Location: ' . BASE_URL . '?act=login');
+            exit();
         }
     }
 }

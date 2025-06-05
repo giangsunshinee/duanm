@@ -33,12 +33,15 @@ match ($act) {
     'danh-sach-san-pham' => (new HomeController())->danhSachSanPham(),
     // base_url /?act=danh-sach-san-pham
 
-    'chi-tiet-san-pham' => (new HomeController())->chiTietSanPham(),
-    'them-gio-hang' => (new HomeController())->addGioHang(),
-    'gio-hang' => (new HomeController())->gioHang(),
-    'thanh-toan' => (new HomeController())->thanhToan(),
-    'xu-ly-thanh-toan' => (new HomeController())->postThanhToan(),
-    
+    'chi-tiet-san-pham'     => (new HomeController())->chiTietSanPham(),
+    'them-gio-hang'         => (new HomeController())->addGioHang(),
+    'gio-hang'              => (new HomeController())->gioHang(),
+    'thanh-toan'            => (new HomeController())->thanhToan(),
+    'xu-ly-thanh-toan'      => (new HomeController())->postThanhToan(),
+    'lich-su-mua-hang'      => (new HomeController())->lichSuMuaHang(),
+    'chi-tiet-mua-hang'     => (new HomeController())->chiTietMuaHang(),
+    'huy-don-hang'          => (new HomeController())->huyDonHang(),
+
 
     'login' => (new HomeController())->formLogin(),
     'check-login' => (new HomeController())->postLogin(),
