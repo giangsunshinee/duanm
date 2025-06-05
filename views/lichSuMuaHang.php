@@ -51,6 +51,7 @@
                                              <td><?= $phuongThucThanhToan[$donhang['phuong_thuc_thanh_toan_id']]  ?></td>
                                              <td><?= $trangThaiDonHang[$donhang['trang_thai_id']]  ?></td>
                                              <td>
+                                                 <a href="<?= BASE_URL ?>?act=chi-tiet-mua-hang&id=<?= $donhang['id'] ?> " class="btn btn-sqr">Chi Tiết đơn hàng</a>
                                                  <?php if ($donhang['trang_thai_id'] == 1) : ?>
                                                      <a href="<?= BASE_URL ?>?act=huy-don-hang&id=<?= $donhang['id'] ?>" class="btn btn-sqr" onclick="return confirm('Bạn chắc chắn muốn hủy đơn hàng?')">
                                                          Hủy

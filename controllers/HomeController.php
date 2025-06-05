@@ -292,7 +292,39 @@ class HomeController
         }
     }
 
-    public function chiTietMuaHang() {}
+    public function chiTietMuaHang()
+    {
+        if (isset($_SESSION['user_client'])) {
+            $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+            $tai_khoan_id = $user['id'];
+
+            $donHangId = $_GET['id'];
+
+            $arrTrangThaiDonHang = $this->modelDonhang->getTrangThaiDonHang();
+            $trangThaiDonHang = array_column($arrTrangThaiDonHang, 'ten_trang_thai', 'id');
+
+            $arrPhuongThucThanhToan = $this->modelDonhang->getPhuongThucThanhToan();
+            $phuongThucThanhToan = array_column($arrPhuongThucThanhToan, 'ten_phuong_thuc', 'id');
+
+            $donHang = $this->modelDonhang->getDonHangById($donHangId);
+
+            $chiTietDonHang = $this->modelDonhang->getChiTietDonHangByDonHangId($donHangId);
+            // echo "<pre>";
+            // print_r($chiTietDonHang);
+            // die;
+
+            if ($donHang['tai_khoan_id'] != $tai_khoan_id) {
+                echo "bạn không có quyền truy cập đơn hàng này";
+                exit;
+            }
+
+             require_once './views/chiTietMuaHang.php';
+        } else {
+            $_SESSION['error'] = 'Bạn cần đăng nhập để xem lịch sử mua hàng.';
+            header('Location: ' . BASE_URL . '?act=login');
+            exit();
+        }
+    }
 
     public function huyDonHang()
     {
