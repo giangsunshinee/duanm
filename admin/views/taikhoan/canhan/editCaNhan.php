@@ -31,6 +31,7 @@
               <hr>
               <div class="row justify-content-center ">
                   <form action="<?= BASE_URL_ADMIN . '?act=sua-thong-tin-ca-nhan-quan-tri' ?>" method="POST">
+                      <input type="hidden" name="id_quan_tri" value="<?= $thongTin['id'] ?>">
                       <!-- left column -->
                       <div class="col-md-12">
                           <div class="text-center">
@@ -52,45 +53,59 @@
                                   <input class="form-control" type="text" value="<?= $thongTin['ho_ten'] ?>" name="ho_ten">
                               </div>
                           </div>
+
                           <div class="form-group">
-                              <label class="col-lg-3 control-label">Last name:</label>
+                              <label class="col-lg-3 control-label">Ngày sinh: </label>
                               <div class="col-lg-12">
-                                  <input class="form-control" type="text" value="Bishop">
+                                  <input class="form-control" type="date" value="<?= $thongTin['ngay_sinh'] ?>" name="ngay_sinh">
                               </div>
                           </div>
-                          <div class="form-group">
-                              <label class="col-lg-3 control-label">Company:</label>
-                              <div class="col-lg-12">
-                                  <input class="form-control" type="text" value="">
-                              </div>
-                          </div>
+
                           <div class="form-group">
                               <label class="col-lg-3 control-label">Email:</label>
                               <div class="col-lg-12">
                                   <input class="form-control" type="text" value="<?= $thongTin['email'] ?>" name="email">
                               </div>
                           </div>
+
                           <div class="form-group">
-                              <label class="col-lg-3 control-label">Time Zone:</label>
+                              <label class="col-lg-3 control-label">Số điện thoại:</label>
                               <div class="col-lg-12">
-                                  <div class="ui-select">
-                                      <select id="user_time_zone" class="form-control">
-                                          <option value="Hawaii">(GMT-10:00) Hawaii</option>
-                                          <option value="Alaska">(GMT-09:00) Alaska</option>
-                                          <option value="Pacific Time (US &amp; Canada)">(GMT-08:00) Pacific Time (US &amp; Canada)</option>
-                                          <option value="Arizona">(GMT-07:00) Arizona</option>
-                                          <option value="Mountain Time (US &amp; Canada)">(GMT-07:00) Mountain Time (US &amp; Canada)</option>
-                                          <option value="Central Time (US &amp; Canada)" selected="selected">(GMT-06:00) Central Time (US &amp; Canada)</option>
-                                          <option value="Eastern Time (US &amp; Canada)">(GMT-05:00) Eastern Time (US &amp; Canada)</option>
-                                          <option value="Indiana (East)">(GMT-05:00) Indiana (East)</option>
-                                      </select>
-                                  </div>
+                                  <input class="form-control" type="text" value="<?= $thongTin['so_dien_thoai'] ?>" name="so_dien_thoai">
                               </div>
                           </div>
+
+                          <div class="form-group">
+                              <label class="col-lg-3 control-label">Giới tính:</label>
+                              <div class="col-lg-12">
+                                  <select class="form-control" name="gioi_tinh">
+                                      <option value="1" <?= $thongTin['gioi_tinh'] == 1 ? 'selected' : '' ?>>Nam</option>
+                                      <option value="2" <?= $thongTin['gioi_tinh'] !== 1 ? 'selected' : '' ?>>Nữ</option>
+                                  </select>
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="col-lg-3 control-label">Địa chỉ:</label>
+                              <div class="col-lg-12">
+                                  <input class="form-control" type="text" value="<?= $thongTin['dia_chi'] ?>" name="dia_chi">
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="col-lg-3 control-label">Trạng thái:</label>
+                              <div class="col-lg-12">
+                                  <select class="form-control" name="trang_thai">
+                                      <option value="1" <?= $thongTin['trang_thai'] == 1 ? 'selected' : '' ?>>Hoạt động</option>
+                                      <option value="2" <?= $thongTin['trang_thai'] !== 1 ? 'selected' : '' ?>>Ngừng hoạt động</option>
+                                  </select>
+                              </div>
+                          </div>
+
                           <div class="form-group">
                               <label class="col-md-3 control-label"></label>
                               <div class="col-md-12">
-                                  <input type="submit" class="btn btn-primary" value="Save Changes">
+                                  <button type="submit" class="btn btn-primary">Submit</button>
                               </div>
                           </div>
                   </form>

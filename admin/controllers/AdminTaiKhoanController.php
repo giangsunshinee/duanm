@@ -321,4 +321,59 @@ class AdminTaiKhoanController
             }
         }
     }
+
+    public function postEditQuanTriCaNhan()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id_quan_tri = $_POST['id_quan_tri'] ?? '';
+            $ho_ten = $_POST['ho_ten'] ?? '';
+            $anh_dai_dien = $_POST['anh_dai_dien'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $so_dien_thoai = $_POST['so_dien_thoai'] ?? '';
+            $ngay_sinh = $_POST['ngay_sinh'] ?? '';
+            $gioi_tinh = $_POST['gioi_tinh'] ?? '';
+            $dia_chi = $_POST['dia_chi'] ?? '';
+            $trang_thai = $_POST['trang_thai'] ?? '';
+
+            $errors = [];
+
+            // Validate dữ liệu
+            if (empty($ho_ten)) {
+                $errors['ho_ten'] = 'Họ tên không được để trống';
+            }
+            if (empty($email)) {
+                $errors['email'] = 'Email không được để trống';
+            }
+            if (empty($so_dien_thoai)) {
+                $errors['so_dien_thoai'] = 'Số điện thoại không được để trống';
+            }
+            if (empty($ngay_sinh)) {
+                $errors['ngay_sinh'] = 'Ngày sinh không được để trống';
+            }
+            if (empty($dia_chi)) {
+                $errors['dia_chi'] = 'Địa chỉ không được để trống';
+            }
+            if (empty($gioi_tinh)) {
+                $errors['gioi_tinh'] = 'Vui lòng chọn giới tính';
+            }
+
+
+            $_SESSION['error'] = $errors;
+            // var_dump($errors);
+            // die;
+
+            // Nếu không có lỗi thì xử lý thêm tài khoản
+            if (empty($errors)) {
+                // password mặc định
+                $this->modelTaiKhoan->updateTaiKhoanCaNhan($id_quan_tri, $ho_ten, $anh_dai_dien, $email, $so_dien_thoai, $ngay_sinh, $gioi_tinh, $dia_chi, $trang_thai);
+
+                header('Location: ' . BASE_URL_ADMIN . '?act=form-sua-thong-tin-ca-nhan-quan-tri');
+                exit();
+            } else {
+                $_SESSION['flash'] = true;
+                header('Location: ' . BASE_URL_ADMIN . '?act=form-sua-thong-tin-ca-nhan-quan-tri');
+                exit();
+            }
+        }
+    }
 }

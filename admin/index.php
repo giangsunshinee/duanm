@@ -74,6 +74,7 @@ match ($act) {
 
     //route quản lý tài khoản cá nhân
     'form-sua-thong-tin-ca-nhan-quan-tri' => (new AdminTaiKhoanController())->formEditCaNhanQuanTri(),
+    'sua-thong-tin-ca-nhan-quan-tri' => (new AdminTaiKhoanController())->postEditQuanTriCaNhan(),
     'sua-mat-khau-ca-nhan-quan-tri' => (new AdminTaiKhoanController())->postEditMatKhauCaNhanQuanTri(),
 
     //route bình luận 
