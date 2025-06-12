@@ -277,6 +277,17 @@ class HomeController
             // print_r($trangThaiDonHang);
             // die;
 
+
+            $mail = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+            $gioHang = $this->modelGioHang->getGioHangFromUser($mail['id']);
+            if (!$gioHang) {
+                $gioHangId = $this->modelGioHang->addGioHang($mail['id']);
+                $gioHang = ['id' => $gioHangId];
+                $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+            } else {
+                $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+            }
+
             $arrPhuongThucThanhToan = $this->modelDonhang->getPhuongThucThanhToan();
             $phuongThucThanhToan = array_column($arrPhuongThucThanhToan, 'ten_phuong_thuc', 'id');
             // echo "<pre>";
@@ -313,12 +324,22 @@ class HomeController
             // print_r($chiTietDonHang);
             // die;
 
+            $mail = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+            $gioHang = $this->modelGioHang->getGioHangFromUser($mail['id']);
+            if (!$gioHang) {
+                $gioHangId = $this->modelGioHang->addGioHang($mail['id']);
+                $gioHang = ['id' => $gioHangId];
+                $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+            } else {
+                $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+            }
+
             if ($donHang['tai_khoan_id'] != $tai_khoan_id) {
                 echo "bạn không có quyền truy cập đơn hàng này";
                 exit;
             }
 
-             require_once './views/chiTietMuaHang.php';
+            require_once './views/chiTietMuaHang.php';
         } else {
             $_SESSION['error'] = 'Bạn cần đăng nhập để xem lịch sử mua hàng.';
             header('Location: ' . BASE_URL . '?act=login');
